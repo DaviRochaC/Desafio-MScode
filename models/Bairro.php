@@ -73,7 +73,7 @@ class Bairro
 
     public function deletarBairro($bairros_id)
     {
-       $$where = "id = $bairros_id" ; 
+       $where = "id = $bairros_id" ; 
 
        return $this->db->deletar($where);
     }

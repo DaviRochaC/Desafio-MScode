@@ -25,7 +25,7 @@ $imagens = [
     'https://caliper.com.br/wp-content/uploads/2018/12/depoimento-inicial-mauricio.jpg',
     'https://pbs.twimg.com/media/EZhCo4zWsAMqFoa.jpg'
 ];
-for ($i = 0; $i < 30; $i++) {
+for ($i = 0; $i < 5; $i++) {
 
     $arrayInscricao = [
     'nome' => 'inscrito nº '.$i.' criado por seed',

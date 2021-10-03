@@ -20,7 +20,7 @@ $enderecoModel = new Endereco();
 
 criarEstados();
 
-for ($i = 0; $i < 30; $i++) {
+for ($i = 0; $i < 5; $i++) {
 
     $estado = $estadoModel->buscarTodosEstados();
     $estado = $estado[rand(0, 26)];
