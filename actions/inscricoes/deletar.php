@@ -43,6 +43,8 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
 
 //apagando inscrição
 $deletarInscricao = $inscricaoModel->deletarInscricao($inscricao['id']);
+$nomefoto = str_replace('http://localhost/mscode/desafio/views/img/','',$inscricao['foto']);
+unlink('http://localhost/mscode/desafio/views/img/.'.$nomefoto);
 
 //verificando se existe mais alguma inscricao vinculada ao endereco da inscricao apagada
 $existeInscricao = $inscricaoModel->buscarInscricaoPorEnderecosId($endereco['id']);
