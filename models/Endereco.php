@@ -84,4 +84,12 @@ class Endereco
         $where = "id = $enderecos_id";
         return $this->db->deletar($where);
     }
+
+    public function formataCep($cep)
+    {
+      $parteUm = substr($cep,0,5);
+      $parteDois = substr($cep,5,3);
+      $cep = "$parteUm-$parteDois";
+      return  $cep;
+    }
 }

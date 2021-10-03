@@ -28,7 +28,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="http://localhost/mscode/desafio/views/admin/inscricoes/novaInscricao.php">
                             <i class="ni ni-send text-white"></i>
                             <span class="nav-link-text text-white">Nova inscrição</span>
                         </a>

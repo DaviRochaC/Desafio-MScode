@@ -17,6 +17,7 @@ $cidadeModel = new Cidade();
 $bairroModel = new Bairro();
 $enderecoModel = new Endereco();
 
+die('aqui');
 
 if (intval($_POST['id']) <= 0) {
     $_SESSION['danger'] = 'Inscrição inválida';

@@ -122,5 +122,16 @@ class Inscricao
         return $this->db->deletar($where);
     }
 
+    public function formataCpf($cpf)
+    {
+      $parteUm = substr($cpf,0,3);
+      $parteDois = substr($cpf,3,3);
+      $parteTres = substr($cpf,6,3);
+      $parteQuatro= substr($cpf,9,3);
+      $cpf = "$parteUm.$parteDois.$parteTres-$parteQuatro";
+      return  $cpf;
+    }
+
+
 
 }

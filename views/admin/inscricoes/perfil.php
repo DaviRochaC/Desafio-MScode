@@ -1,24 +1,41 @@
 <?php
+
 ini_set('display_erros', true);
 error_reporting(E_ALL);
 session_start();
 
-//imports
+//importações de models para manipulação das classes
 require_once('../../../models/Inscricao.php');
+require_once('../../../models/Estado.php');
+require_once('../../../models/Cidade.php');
+require_once('../../../models/Bairro.php');
+require_once('../../../models/Endereco.php');
+
 
 //instancias
 $inscricaoModel = new Inscricao();
+$estadoModel = new Estado();
+$cidadeModel = new Cidade();
+$bairroModel = new Bairro();
+$enderecoModel = new Endereco();
 
-
-//verificacao do GET['id']
 if (intval($_GET['id'] <= 0)) {
   $_SESSION['danger'] = 'Inscrição inválida';
   header('Location:http://localhost/mscode/desafio/views/admin/inscricoes/listar.php');
   die();
 }
 
+//variaveis
 $id = intval($_GET['id']);
 $inscricao = $inscricaoModel->buscarInscricaoPorId($id);
+$endereco = $enderecoModel->buscarEnderecoPorId($inscricao['enderecos_id']);
+$bairro = $bairroModel->buscarBairroPorId($endereco['bairros_id']);
+$cidade = $cidadeModel->buscarCidadePorId($bairro['cidades_id']);
+$estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
+
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -30,10 +47,11 @@ $inscricao = $inscricaoModel->buscarInscricaoPorId($id);
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
   <title>Perfil</title>
-  <!-- Favicon -->
-  <link rel="icon" href="../assets/img/brand/favicon.png" type="image/png">
+
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
   <!-- Icons -->
   <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
@@ -74,11 +92,9 @@ $inscricao = $inscricaoModel->buscarInscricaoPorId($id);
                   <div class="card-profile-stats d-flex justify-content-center">
                     <div>
                       <h3 class="h3">
-                        <?= $inscricao['nome']; ?><span class="font-weight-light"></span>
+                        <?= $inscricao['nome'] ?><span class="font-weight-light"></span>
                       </h3>
-
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -94,128 +110,219 @@ $inscricao = $inscricaoModel->buscarInscricaoPorId($id);
                   <h2 class="mb-0">Informações</h2>
                 </div>
                 <div class="col-4 text-right">
-                  <a href="editar.php?id=<?= $inscricao['id'] ?>" class="btn btn-primary">Editar</a>
-                  <a href="../../../actions/inscricoes/deletar.php?id=<?=$inscricao['id']?>" class="btn btn-danger">Deletar</a>
+                  <!-- Button do modal de editar inscrição -->
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar<?= $inscricao['id'] ?>">
+                    Editar
+                  </button>
+                  <a href="../../../actions/inscricoes/deletar.php?id=<?= $inscricao['id'] ?>" class="btn btn-danger">Deletar</a>
                 </div>
-
-
-
               </div>
             </div>
             <div class="card-body">
-              <form>
-                <h6 class="heading-small text-muted mb-4">Dados pessoais</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-lg-6">
-                     
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email" id="input-email" class="form-control" placeholder="jesse@example.com">
-                      </div>
-                    </div>
+              <ul class="list-group list-group-flush">
+                <div class="row">
+                  <h3 class="text-dark">Dados Pessoais</h3>
+                  <div class="col-6">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3"> Nome </strong> <br>
+                      <?= $inscricao['nome'] ?>
+
+                    </li>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-first-name">First name</label>
-                        <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="Lucky">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-last-name">Last name</label>
-                        <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="Jesse">
-                      </div>
-                    </div>
+                  <div class="col-6">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">Data Nascimento</strong> <br>
+                      <?= date('d/m/Y', strtotime($inscricao['data_nascimento'])) ?>
+
+                    </li>
                   </div>
                 </div>
-                <hr class="my-4" />
-                <!-- Address -->
-                <h6 class="heading-small text-muted mb-4">Contact information</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-address">Address</label>
-                        <input id="input-address" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
-                      </div>
-                    </div>
+                <div class="row">
+                  <div class="col-6">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">Email</strong> <br>
+                      <?= $inscricao['email'] ?>
+
+
+                    </li>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-city">City</label>
-                        <input type="text" id="input-city" class="form-control" placeholder="City" value="New York">
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Country</label>
-                        <input type="text" id="input-country" class="form-control" placeholder="Country" value="United States">
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Postal code</label>
-                        <input type="number" id="input-postal-code" class="form-control" placeholder="Postal code">
-                      </div>
-                    </div>
+                  <div class="col-6">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">CPF</strong> <br>
+                      <?php $cpf = $inscricaoModel->formataCpf($inscricao['cpf']); ?>
+                      <?= $cpf ?>
+
+                    </li>
                   </div>
                 </div>
-                <hr class="my-4" />
-                <!-- Description -->
-                <h6 class="heading-small text-muted mb-4">About me</h6>
-                <div class="pl-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">About Me</label>
-                    <textarea rows="4" class="form-control" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+
+                <hr>
+
+                <div class="row">
+                  <h3 class="text-dark">Endereço</h3>
+                  <div class="col-6">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3"> Rua </strong> <br>
+                      <?= $endereco['rua'] ?>
+
+                    </li>
+                  </div>
+                  <div class="col-3">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">Número</strong> <br>
+                      <?= $endereco['numero'] ?>
+
+                    </li>
+                  </div>
+                  <div class="col-3">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">CEP</strong> <br>
+                      <?php $cep = $enderecoModel->formataCep($endereco['cep']) ?>
+                      <?= $cep ?>
+
+                    </li>
                   </div>
                 </div>
-              </form>
+                <div class="row">
+                  <div class="col-6">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">Bairro</strong> <br>
+                      <?= $bairro['nome'] ?>
+                    </li>
+                  </div>
+                  <div class="col-3">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">Cidade</strong> <br>
+                      <?= $cidade['nome'] ?>
+                    </li>
+                  </div>
+                  <div class="col-3">
+                    <li class="list-group-item">
+                      <strong class="text-danger h3">Estado</strong> <br>
+                      <?= $estado['sigla'] ?>
+                    </li>
+                  </div>
+                </div>
+
+                <?php if (isset($endereco['complemento']) and $endereco['complemento'] != '') { ?>
+                  </li>
+                  <div class="row">
+                    <div class="col-6">
+                      <li class="list-group-item">
+                        <strong class="text-danger h3">Complemento</strong> <br>
+                        <?= $endereco['complemento'] ?>
+                      </li>
+                    </div>
+                  </div>
+                <?php } ?>
+              </ul>
             </div>
+
           </div>
         </div>
       </div>
-      <!-- Footer -->
-      <footer class="footer pt-0">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6">
-            <div class="copyright text-center  text-lg-left  text-muted">
-              &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </footer>
     </div>
-  </div>
-  <!-- Argon Scripts -->
-  <!-- Core -->
-  <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
-  <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
-  <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-  <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-  <!-- Argon JS -->
-  <script src="../assets/js/argon.js?v=1.2.0"></script>
+
+
+   
+    <!-- Modal de editar inscricao -->
+    <div class="modal fade" id="editar<?= $inscricao['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="" id="exampleModalLabel">Editar <?= $inscricao['nome'] ?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="../../../actions/inscricoes/editar.php">
+              <h2 class="text-danger">Dados Pessoais</h2>
+              <form>
+                <div class="row">
+                  <div class=" form-group col-md-5 col-sm-12">
+                    <label class="form-label text-dark">Nome completo</label>
+                    <input name="nome" class="form-control text-dark" type="text" value="<?=$inscricao['nome']?>">
+                  </div>
+
+                  <div class=" form-group col-md-3 col-sm-12">
+                    <label class="form-label text-dark">CPF</label>
+                    <input name="cpf" class="form-control cpf text-dark" maxlength="14" type="text" value="<?=$inscricao['cpf']?>" >
+                  </div>
+                  <div class=" form-group col-md-4 col-sm-12">
+                    <label class="form-label text-dark">Data de Nascimento</label>
+                    <input name="data_nascimento" class="form-control text-dark" type="date" value="<?=$inscricao['data_nascimento']?>">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class=" form-group col-md-6 col-sm-12">
+                    <label class="form-label text-dark">Email</label>
+                    <input name="email" class="form-control text-dark" type="email" value="<?=$inscricao['email']?>">
+                  </div>
+                  <div class=" form-group col-md-6 col-sm-12">
+                    <label class="form-label text-dark">Foto</label>
+                    <input name="imagem" class="form-control text-dark" type="file" accept="image/* ">
+                  </div>
+
+                </div>
+
+                <h2 class="pt-2 text-danger">Endereço</h2>
+
+                <div class="row">
+                  <div class=" form-group col-md-6 col-sm-12">
+                    <label class="form-label text-dark">Rua</label>
+                    <input name="rua" class="form-control text-dark" type="text" value="<?=$endereco['rua']?>">
+                  </div>
+                  <div class=" form-group col-md-2 col-sm-12">
+                    <label class="form-label text-dark">Número</label>
+                    <input name="numero" class="form-control text-dark" type="text" value="<?=$endereco['numero']?>">
+                  </div>
+                  <div class=" form-group col-md-4 col-sm-12">
+                    <label class="form-label text-dark">CEP</label>
+                    <input name="cep" class="form-control cep text-dark" maxlength="9" type="text" value="<?=$endereco['cep']?>">
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class=" form-group col-md-3 col-sm-12">
+                    <label class="form-label text-dark">Bairro</label>
+                    <input name="bairro" class="form-control text-dark" type="text" value="<?=$bairro['nome']?>">
+                  </div>
+
+                  <div class=" form-group col-md-4 col-sm-12">
+                    <label class="form-label text-dark">Cidade</label>
+                    <input name="cidade" class="form-control text-dark" type="text" value="<?=$cidade['nome']?>">
+                  </div>
+                  <div class=" form-group col-md-2 col-sm-12">
+                    <label class="form-label text-dark">Estado</label>
+                    <input name="estado" class="form-control text-dark" type="text" maxlength="2" value="<?=$estado['sigla']?>">
+                  </div>
+                  <div class=" form-group col-md-3 col-sm-12">
+                    <label class="form-label text-dark">Complemento</label>
+                    <input name="complemento" class="form-control text-dark" type="text"  value="<?= $endereco['complemento']?>">
+                  </div>
+
+                </div>
+
+          </div>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+    <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <!-- Argon JS -->
+    <script src="../assets/js/argon.js?v=1.2.0"></script>
 </body>
 
 </html>
