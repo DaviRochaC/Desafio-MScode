@@ -51,8 +51,7 @@ class Inscricao
 
             if (!isset($post[$chave]) or ($post[$chave] == '')) {
                 $_SESSION['danger'] = 'Preencha todos os campos para prosseguir';
-                header('Location:http://localhost/mscode/desafio/views/inscricoes/index.php#inscreva-se');
-                die();
+                redirecionar();
             }
         }
     }
@@ -111,10 +110,6 @@ class Inscricao
      return preg_replace("/[^0-9]/", '', $cpf);
     }
 
-    public function limpacep($cep)
-    {
-     return str_replace('-', '', $cep);
-    }
 
     public function deletarInscricao($id)
     {

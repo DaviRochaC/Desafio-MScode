@@ -1,5 +1,8 @@
 <?php
 session_start();
+require_once('../../../helpers/middleware.php');
+
+verificaAdminLogado();
 ?>
 
 <!DOCTYPE html>

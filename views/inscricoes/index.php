@@ -56,7 +56,7 @@ session_start();
                 </div>
 
                 <div class="col-7 ">
-                    <h1 class="text-center text-end text-dark"><strong class="text-danger">MSCODE</strong> <i class="fas fa-bell text-warning"></i>
+                    <h1 class="text-center text-end text-dark"><strong class="text-danger">MSCODE</strong>
                         <div class="divider-custom divider-dark">
                             <div class="divider-custom-line"></div>
                         </div>

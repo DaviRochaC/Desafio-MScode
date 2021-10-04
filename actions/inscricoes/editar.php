@@ -9,6 +9,9 @@ require_once('../../models/Estado.php');
 require_once('../../models/Cidade.php');
 require_once('../../models/Bairro.php');
 require_once('../../models/Endereco.php');
+require_once('../../helpers/middleware.php');
+
+verificaAdminLogado();
 
 //instancias
 $inscricaoModel = new Inscricao();
@@ -42,7 +45,7 @@ $inscricaoModel->verificaCampos($_POST, array(
 ));
 
 $cpf = $inscricaoModel->limpacpf(htmlspecialchars($_POST['cpf']));
-$cep = $inscricaoModel->limpacep(htmlspecialchars( $_POST['cep']));
+$cep = $enderecoModel->limpacep(htmlspecialchars( $_POST['cep']));
 
 //verifica se o cpf ou  email informado ja existe no banco pra nao duplicar
 $cpfcadastrado = $inscricaoModel->buscarInscricaoPorCpf($cpf);

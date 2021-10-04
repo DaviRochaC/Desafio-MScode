@@ -85,6 +85,11 @@ class Endereco
         return $this->db->deletar($where);
     }
 
+    public function limpacep($cep)
+    {
+     return str_replace('-', '', $cep);
+    }
+
     public function formataCep($cep)
     {
       $parteUm = substr($cep,0,5);

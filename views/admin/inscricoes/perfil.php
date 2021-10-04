@@ -10,6 +10,9 @@ require_once('../../../models/Estado.php');
 require_once('../../../models/Cidade.php');
 require_once('../../../models/Bairro.php');
 require_once('../../../models/Endereco.php');
+require_once('../../../helpers/middleware.php');
+
+verificaAdminLogado();
 
 
 //instancias
@@ -57,6 +60,9 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
   <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
   <!-- Argon CSS -->
   <link rel="stylesheet" href="../assets/css/argon.css?v=1.2.0" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="../../inscricoes/assets/js/jquery.mask.js"></script>
+
 </head>
 
 <body>
@@ -224,7 +230,7 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
     </div>
 
 
-   
+
     <!-- Modal de editar inscricao -->
     <div class="modal fade" id="editar<?= $inscricao['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -240,23 +246,23 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
                 <div class="row">
                   <div class=" form-group col-md-5 col-sm-12">
                     <label class="form-label text-dark">Nome completo</label>
-                    <input name="nome" class="form-control text-dark" type="text" value="<?=$inscricao['nome']?>">
+                    <input name="nome" class="form-control text-dark" type="text" value="<?= $inscricao['nome'] ?>">
                   </div>
 
                   <div class=" form-group col-md-3 col-sm-12">
                     <label class="form-label text-dark">CPF</label>
-                    <input name="cpf" class="form-control cpf text-dark" maxlength="14" type="text" value="<?=$inscricao['cpf']?>" >
+                    <input name="cpf" class="form-control text-dark cpf" maxlength="14" type="text" value="<?= $inscricao['cpf'] ?>">
                   </div>
                   <div class=" form-group col-md-4 col-sm-12">
                     <label class="form-label text-dark">Data de Nascimento</label>
-                    <input name="data_nascimento" class="form-control text-dark" type="date" value="<?=$inscricao['data_nascimento']?>">
+                    <input name="data_nascimento" class="form-control text-dark" type="date" value="<?= $inscricao['data_nascimento'] ?>">
                   </div>
                 </div>
 
                 <div class="row">
                   <div class=" form-group col-md-6 col-sm-12">
                     <label class="form-label text-dark">Email</label>
-                    <input name="email" class="form-control text-dark" type="email" value="<?=$inscricao['email']?>">
+                    <input name="email" class="form-control text-dark" type="email" value="<?= $inscricao['email'] ?>">
                   </div>
                   <div class=" form-group col-md-6 col-sm-12">
                     <label class="form-label text-dark">Foto</label>
@@ -270,15 +276,15 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
                 <div class="row">
                   <div class=" form-group col-md-6 col-sm-12">
                     <label class="form-label text-dark">Rua</label>
-                    <input name="rua" class="form-control text-dark" type="text" value="<?=$endereco['rua']?>">
+                    <input name="rua" class="form-control text-dark" type="text" value="<?= $endereco['rua'] ?>">
                   </div>
                   <div class=" form-group col-md-2 col-sm-12">
                     <label class="form-label text-dark">Número</label>
-                    <input name="numero" class="form-control text-dark" type="text" value="<?=$endereco['numero']?>">
+                    <input name="numero" class="form-control text-dark" type="text" value="<?= $endereco['numero'] ?>">
                   </div>
                   <div class=" form-group col-md-4 col-sm-12">
                     <label class="form-label text-dark">CEP</label>
-                    <input name="cep" class="form-control cep text-dark" maxlength="9" type="text" value="<?=$endereco['cep']?>">
+                    <input name="cep" class="form-control text-dark cep" maxlength="9" type="text" value="<?= $endereco['cep'] ?>">
                   </div>
 
                 </div>
@@ -286,20 +292,20 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
                 <div class="row">
                   <div class=" form-group col-md-3 col-sm-12">
                     <label class="form-label text-dark">Bairro</label>
-                    <input name="bairro" class="form-control text-dark" type="text" value="<?=$bairro['nome']?>">
+                    <input name="bairro" class="form-control text-dark" type="text" value="<?= $bairro['nome'] ?>">
                   </div>
 
                   <div class=" form-group col-md-4 col-sm-12">
                     <label class="form-label text-dark">Cidade</label>
-                    <input name="cidade" class="form-control text-dark" type="text" value="<?=$cidade['nome']?>">
+                    <input name="cidade" class="form-control text-dark" type="text" value="<?= $cidade['nome'] ?>">
                   </div>
                   <div class=" form-group col-md-2 col-sm-12">
                     <label class="form-label text-dark">Estado</label>
-                    <input name="estado" class="form-control text-dark" type="text" maxlength="2" value="<?=$estado['sigla']?>">
+                    <input name="estado" class="form-control text-dark" type="text" maxlength="2" value="<?= $estado['sigla'] ?>">
                   </div>
                   <div class=" form-group col-md-3 col-sm-12">
                     <label class="form-label text-dark">Complemento</label>
-                    <input name="complemento" class="form-control text-dark" type="text"  value="<?= $endereco['complemento']?>">
+                    <input name="complemento" class="form-control text-dark" type="text" value="<?= $endereco['complemento'] ?>">
                   </div>
 
                 </div>
@@ -314,15 +320,28 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
         </div>
       </div>
     </div>
+
+
+
+
     <!-- Argon Scripts -->
     <!-- Core -->
-    <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
+
     <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
     <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
     <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.2.0"></script>
+
+    <script>
+      $(document).ready(function() {
+        $('.cep').mask('00000-000');
+        $('.cpf').mask('000.000.000-00', {
+          reverse: true
+        });
+      });
+    </script>
 </body>
 
 </html>

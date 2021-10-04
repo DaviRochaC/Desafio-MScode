@@ -5,6 +5,9 @@ session_start();
 
 //imports
 require_once('../../../models/Inscricao.php');
+require_once('../../../helpers/middleware.php');
+
+verificaAdminLogado();
 
 //instancias
 $inscricaoModel = new Inscricao();
@@ -62,7 +65,7 @@ $inscricaoModel = new Inscricao();
                 <div class="card shadow">
                     <div class="card-body">
                         <h2 class="text-danger">Dados Pessoais</h2>
-                        <form>
+                        <form method="POST" action="../../../actions/inscricoes/cadastrar.php"  enctype="multipart/form-data">
                             <div class="row">
                                 <div class=" form-group col-md-5 col-sm-12">
                                     <label class="form-label text-dark">Nome completo</label>
@@ -75,7 +78,7 @@ $inscricaoModel = new Inscricao();
                                 </div>
                                 <div class=" form-group col-md-4 col-sm-12">
                                     <label class="form-label text-dark">Data de Nascimento</label>
-                                    <input name="data_nascimento" class="form-control" type="date">
+                                    <input name="data_nascimento" class="form-control" type="date" maxlength="8">
                                 </div>
                             </div>
 

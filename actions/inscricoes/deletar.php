@@ -10,6 +10,9 @@ require_once('../../models/Estado.php');
 require_once('../../models/Cidade.php');
 require_once('../../models/Bairro.php');
 require_once('../../models/Endereco.php');
+require_once('../../helpers/middleware.php');
+
+verificaAdminLogado();
 
 //instancias
 $inscricaoModel = new Inscricao();

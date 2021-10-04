@@ -10,6 +10,9 @@ require_once('../../models/Estado.php');
 require_once('../../models/Cidade.php');
 require_once('../../models/Bairro.php');
 require_once('../../models/Endereco.php');
+require_once('../../helpers/middleware.php');
+
+verificaAdminLogado();
 
 //instancias
 $inscricaoModel = new Inscricao();
@@ -20,6 +23,7 @@ $bairroModel = new Bairro();
 $enderecoModel = new Endereco();
 
 
+
 //verifica se os campos foram setados e sao diferentes de vazio
 $inscricaoModel->verificaCampos($_POST, array(
     'nome', 'cpf', 'email', 'data_nascimento', 'cep', 'rua',
@@ -28,16 +32,15 @@ $inscricaoModel->verificaCampos($_POST, array(
 
 $fotosetada = $inscricaoModel->verificafoto($_FILES['imagem']['name'], $_FILES['imagem']['size'],);
 
-
 if (!$fotosetada) {
-    $_SESSION['danger'] = 'Preencha todos os campos para prosseguir';
-    header('Location:http://localhost/mscode/desafio/views/inscricoes/index.php#inscreva-se');
-    die();
+
+   $_SESSION['danger'] = 'Preencha todos os campos para prosseguir';
+   redirecionar();
 }
 
 //tira os pontos e traço do cpf e do cep
 $cpf = $inscricaoModel->limpacpf(htmlspecialchars($_POST['cpf']));
-$cep = $inscricaoModel->limpacep(htmlspecialchars( $_POST['cep']));
+$cep = $enderecoModel->limpacep(htmlspecialchars($_POST['cep']));
 
 //verifica se o cpf ou  email informado ja existe no banco. Se existir faz o redirecionamento
 $cpfcadastrado = $inscricaoModel->buscarInscricaoPorCpf($cpf);
@@ -45,14 +48,12 @@ $emailcadastrado = $inscricaoModel->buscarInscricaoPorEmail(htmlspecialchars($_P
 
 if ($cpfcadastrado) {
     $_SESSION['danger'] = 'Já existe uma inscrição vinculada ao CPF informado';
-    header('Location:http://localhost/mscode/desafio/views/inscricoes/index.php#inscreva-se');
-    die();
+    redirecionar();
 }
 
 if ($emailcadastrado) {
     $_SESSION['danger'] = 'Já existe uma inscrição vinculada ao email informado';
-    header('Location:http://localhost/mscode/desafio/views/inscricoes/index.php#inscreva-se');
-    die();
+    redirecionar();
 }
 
 //cadastra o estado e armazena ela em uma variavel
@@ -91,13 +92,13 @@ $arrayEndereço = [
     'complemento' => $complemento
 ];
 
-$endereco = $enderecoModel->getEndereco($arrayEndereço['rua'],$arrayEndereço['numero'],$arrayEndereço['cep'],$arrayEndereço['bairros_id'],$arrayEndereço['complemento']);
+$endereco = $enderecoModel->getEndereco($arrayEndereço['rua'], $arrayEndereço['numero'], $arrayEndereço['cep'], $arrayEndereço['bairros_id'], $arrayEndereço['complemento']);
 
 //salvar foto na pasta img
 
 
 $imagem = $imagemModel->cadastrar($_FILES);
-$urlimagem = 'http://localhost/mscode/desafio/views/img/'.$imagem ;
+$urlimagem = 'http://localhost/mscode/desafio/views/img/' . $imagem;
 
 //cadastrar inscricao
 $arrayInscricao = [
@@ -107,16 +108,24 @@ $arrayInscricao = [
     'cpf' => $cpf,
     'foto' => $urlimagem,
     'enderecos_id' => $endereco['id'],
-  ];
+    'landingpage' => ($_SESSION['admin_autenticado']) ? 0 : 1
+];
 
 $inscricaoModel->create($arrayInscricao);
 
 $_SESSION['success'] = ' Inscrição feita com sucesso!';
-header('Location:http://localhost/mscode/desafio/views/inscricoes/index.php#inscreva-se');
-die();
+redirecionar();
 
 
 
- 
+//funcoes
+function redirecionar()
+{
+    if ($_SESSION['admin_autenticado']) {
+        header('Location:http://localhost/mscode/desafio/views/admin/inscricoes/novaInscricao.php');
+        die();
+    }
 
-   
+    header('Location:http://localhost/mscode/desafio/views/inscricoes/index.php#inscreva-se');
+    die();
+}

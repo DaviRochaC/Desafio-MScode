@@ -5,6 +5,9 @@ session_start();
 
 //imports
 require_once('../../../models/Inscricao.php');
+require_once('../../../helpers/middleware.php');
+
+verificaAdminLogado();
 
 //instancias
 $inscricaoModel = new Inscricao();
