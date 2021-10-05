@@ -67,7 +67,7 @@ $inscricoes = $inscricaoModel->buscarTodasInscricoes();
 
             <!-- Light table -->
             <div class="card-body">
-              <?php include('../components/alerts.php')?>
+              <?php include('../components/alerts.php') ?>
               <div class="table-responsive border-0">
                 <table class="table align-items-center table-flush">
                   <thead class="thead-light">
@@ -81,14 +81,15 @@ $inscricoes = $inscricaoModel->buscarTodasInscricoes();
                     </tr>
                   </thead>
                   <tbody class="list">
-                    <?php foreach($inscricoes as $inscricao) { ?>
+                    <?php foreach ($inscricoes as $inscricao) { ?>
                       <tr>
-                        <td><img width="100px" src ="<?= $inscricao['foto']?>"></td>
+                        <td><img width="100px" src="<?= $inscricao['foto'] ?>"></td>
                         <td><?= $inscricao['nome']; ?></td>
                         <td><?= $inscricao['email']; ?></td>
-                        <td><?= $inscricao['cpf']; ?></td>
-                        <td><a class="btn btn-primary" href="http://localhost/mscode/desafio/views/admin/inscricoes/perfil.php?id=<?= $inscricao['id']?>"> Detalhes</a>
-                           
+                        <?php $cpf = $inscricaoModel->formataCpf($inscricao['cpf']) ?>
+                        <td><?= $cpf ?></td>
+                        <td><a class="btn btn-primary" href="http://localhost/mscode/desafio/views/admin/inscricoes/perfil.php?id=<?= $inscricao['id'] ?>"> Detalhes</a>
+
                         </td>
                       <?php } ?>
                   </tbody>

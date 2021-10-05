@@ -125,9 +125,12 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
               </div>
             </div>
             <div class="card-body">
+
               <ul class="list-group list-group-flush">
                 <div class="row">
+                  <?php include('../components/alerts.php') ?>
                   <h3 class="text-dark">Dados Pessoais</h3>
+
                   <div class="col-6">
                     <li class="list-group-item">
                       <strong class="text-danger h3"> Nome </strong> <br>
@@ -240,13 +243,14 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form method="POST" action="../../../actions/inscricoes/editar.php">
+            <form method="POST" action="../../../actions/inscricoes/editar.php" enctype="multipart/form-data">
               <h2 class="text-danger">Dados Pessoais</h2>
               <form>
                 <div class="row">
                   <div class=" form-group col-md-5 col-sm-12">
                     <label class="form-label text-dark">Nome completo</label>
                     <input name="nome" class="form-control text-dark" type="text" value="<?= $inscricao['nome'] ?>">
+                    <input  name="id" type="hidden" value="<?= $inscricao['id'] ?>">
                   </div>
 
                   <div class=" form-group col-md-3 col-sm-12">

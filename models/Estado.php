@@ -15,7 +15,6 @@ class Estado
     public function __construct()
     {
         $this->db = new MySql('estados');
-   
     }
 
     public function create($arrayEstado)
@@ -25,7 +24,7 @@ class Estado
 
     public function buscarTodosEstados()
     {
-       return $this->db->buscar();
+        return $this->db->buscar();
     }
 
     public function buscarEstadoPorSigla($sigla)
@@ -34,21 +33,20 @@ class Estado
         $estado = $this->db->buscar($where);
         if (count($estado) > 0) {
             return $estado[0];
-  
-        }else{
+        } else {
             return false;
         }
     }
 
     public function getEstado($sigla)
     {
-       
+
         $estado = $this->buscarEstadoPorSigla($sigla);
-      
-        if($estado){
-          return $estado;
-        }else{
-            
+
+        if ($estado) {
+            return $estado;
+        } else {
+
             $arrayEstado = [
                 'sigla' => $sigla,
             ];
@@ -61,19 +59,25 @@ class Estado
 
     public function buscarEstadoPorId($estados_id)
     {
-       $where = "id = $estados_id";
-       $estado = $this->db->buscar($where);
+        $where = "id = $estados_id";
+        $estado = $this->db->buscar($where);
         if (count($estado) > 0) {
             return $estado[0];
-  
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public function deletarEstado($estados_id)
     {
-       $where = "id = $estados_id";
-     return $this->db->deletar($where);
+        $where = "id = $estados_id";
+        return $this->db->deletar($where);
     }
+
+    public function atualizarEstado($arrayNovoEstado,$estados_id)
+    {
+        $where = "id = $estados_id";
+        return $this->db->atualizar($arrayNovoEstado,$where);
+    }
+   
 }

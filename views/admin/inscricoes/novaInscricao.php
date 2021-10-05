@@ -63,9 +63,12 @@ $inscricaoModel = new Inscricao();
         <div class="container-fluid mt--6">
             <div class="row">
                 <div class="card shadow">
+
                     <div class="card-body">
+                        <?php include('../components/alerts.php') ?>
                         <h2 class="text-danger">Dados Pessoais</h2>
-                        <form method="POST" action="../../../actions/inscricoes/cadastrar.php"  enctype="multipart/form-data">
+
+                        <form method="POST" action="../../../actions/inscricoes/cadastrar.php" enctype="multipart/form-data">
                             <div class="row">
                                 <div class=" form-group col-md-5 col-sm-12">
                                     <label class="form-label text-dark">Nome completo</label>
