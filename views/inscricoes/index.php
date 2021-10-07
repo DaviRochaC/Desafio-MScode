@@ -1,10 +1,10 @@
 <?php
+
 ini_set('display_erros', true);
 error_reporting(E_ALL);
 session_start();
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,21 +14,21 @@ session_start();
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <title>MScode: Inscricões</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- Favicon  da Simonetti-->
+    <link rel="icon" type="image/png" href="https://moveissimonetti.vteximg.com.br/arquivos/favicon.ic">o
+    <!-- Bootstrap css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="./assets/css/styles.css" rel="stylesheet" />
-
+   <!--script do Jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--script das mascaras -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
@@ -52,22 +52,19 @@ session_start();
         <div class="container d-flex align-items-center flex-column">
             <div class="row">
                 <div class="col-5">
-                    <img width="500 px" src="./assets/img/if .png" alt="">
+                    <img width="600 px" src="./assets/img/BUG.png" alt="">
                 </div>
 
                 <div class="col-7 ">
                     <h1 class="text-center text-end text-dark"><strong class="text-danger">MSCODE</strong>
                         <div class="divider-custom divider-dark">
-                            <div class="divider-custom-line"></div>
+                            <div class="divider-custom-line "></div>
                         </div>
                         Sua melhor oportunidade <br> de entrar no universo da <strong class="text-danger">PROGRAMAÇÃO</strong>!!!
                     </h1>
                 </div>
             </div>
 
-
-
-            <!-- Masthead Heading-->
         </div>
     </header>
 
@@ -82,10 +79,10 @@ session_start();
             </div>
             <!-- About Section Content-->
             <div class="row">
-                <div class="col-md-5 col-sm-12 ">
+                <div style="text-align:justify;" class="col-md-5 col-sm-12 ">
                     <div class="row">
                         <h5 class="text-center text-danger">Móveis Simonetti</h5>
-                        <p> A Móveis Simonetti é uma rede varejista, fundada em Pinheiros em 15 de abril de 1988, por Sr. Dilmar Antônio Simonetti, que hoje atua em quase todo o Espírito Santo, além de possuir diversas lojas em cidades do sul da Bahia e noroeste de Minas Gerais.</p>
+                        <p> A Móveis Simonetti é uma rede varejista, fundada em 15 de abril de 1988, no município de Pinheiros-ES, por Sr. Dilmar Antônio Simonetti. Hoje a empresa atua em quase todo o Espírito Santo, além de possuir diversas lojas em cidades do sul da Bahia e noroeste de Minas Gerais.</p>
                         <h5 class="text-center text-danger ">MScode</h5>
                         <p>O MScode é um programa de formação de desenvolvedores web, criado pela empresa Móveis Simonetti em parceira com o SENAC (Serviço Nacional de Aprendizagem Comercial).</p>
 
@@ -147,7 +144,7 @@ session_start();
                                         </div>
                                         <div class=" form-group col-md-4 col-sm-12">
                                             <label class="form-label">Data de Nascimento</label>
-                                            <input name="data_nascimento" class="form-control" type="date">
+                                            <input name="data_nascimento" class="form-control" type="date" maxlength="10">
                                         </div>
 
                                     </div>
@@ -220,19 +217,14 @@ session_start();
     </section>
     <!-- Copyright Section-->
     <div class="copyright py-4 text-center text-white bg-dark">
-        <div class="container"><small>Copyright &copy; 2021</small></div>
+        <div class="container"> Davi Rocha - Mscode <small> &copy; 2021</small></div>
     </div>
 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
 
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 
+    <!--script da mascaras de cep e cpf -->
     <script>
         $(document).ready(function() {
             $('.cep').mask('00000-000');
@@ -242,6 +234,7 @@ session_start();
         });
     </script>
 
+    <!--script do autocomplete do cep para os demais outros campos -->
     <script>
         $(document).ready(function() {
 

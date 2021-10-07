@@ -3,7 +3,7 @@
     <div class="scrollbar-inner">
         <!-- Brand -->
         <div class="sidenav-header  align-items-center">
-            <a class="navbar-brand" href="javascript:void(0)">
+            <a class="navbar-brand" href="http://localhost/mscode/desafio/views/admin/inscricoes/listar.php">
                 <img src="../assets/img/logo.png" alt="...">
             </a>
         </div>

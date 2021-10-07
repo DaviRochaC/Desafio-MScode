@@ -25,6 +25,8 @@ class Inscricao
     public function uptade($inscricaoId, $arrayInscrição)
     {
         $where = "id = $inscricaoId";
+        $arrayInscrição['editado_em'] = date('Y-m-d H:i:s');
+
         return $this->db->atualizar($arrayInscrição, $where);
     }
 
@@ -127,5 +129,45 @@ class Inscricao
         $parteQuatro = substr($cpf, 9, 3);
         $cpf = "$parteUm.$parteDois.$parteTres-$parteQuatro";
         return  $cpf;
+    }
+
+    public function validaCpf($cpf)
+
+    {
+        $cpf = $this->limpacpf($cpf);
+
+        
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+        if (preg_match('/([0-9])\1{10}/', $cpf)) {
+            return false;
+        }
+
+        $D1 = 0;
+        $D2 = 0;
+
+        for ($i = 0, $x = 10; $i <= 8; $i++, $x--) {
+
+            $D1 += $cpf[$i] * $x;
+        }
+
+        for ($i = 0, $x = 11; $i <= 9; $i++, $x--) {
+
+            $D2 += $cpf[$i] * $x;
+
+        }
+
+
+
+        $R1 = (($D1 % 11) < 2) ? 0 : 11 - ($D1 % 11);
+        $R2 = (($D2 % 11) < 2) ? 0 : 11 - ($D2 % 11);
+
+
+        if ($R1 != $cpf[9] or $R2 != $cpf[10]) {
+            return false;
+        } else {
+           return $cpf;
+        }
     }
 }

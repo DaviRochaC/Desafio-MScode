@@ -7,6 +7,7 @@ session_start();
 require_once('../../../models/Inscricao.php');
 require_once('../../../helpers/middleware.php');
 
+//verificacao se o admin está logado 
 verificaAdminLogado();
 
 //instancias
@@ -26,7 +27,7 @@ $inscricoes = $inscricaoModel->buscarTodasInscricoes();
   <meta name="author" content="Creative Tim">
   <title>Inscricoes - Administrativo</title>
   <!-- Favicon -->
-
+  <link rel="icon" type="image/png" href="https://moveissimonetti.vteximg.com.br/arquivos/favicon.ico">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->

@@ -7,6 +7,7 @@ session_start();
 require_once('../../../models/Inscricao.php');
 require_once('../../../helpers/middleware.php');
 
+//verificacao se o admin está logado 
 verificaAdminLogado();
 
 //instancias
@@ -24,17 +25,16 @@ $inscricaoModel = new Inscricao();
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
     <title>Nova Inscrição - Administrativo</title>
-    <!-- Favicon -->
-
-    <!-- Fonts -->
+    <!-- Favicon  da Simonetti-->
+    <link rel="icon" type="image/png" href="https://moveissimonetti.vteximg.com.br/arquivos/favicon.ico">
+    <!-- Bootstrap css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-    <!-- Icons -->
-    <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
-    <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+
     <!-- Argon CSS -->
     <link rel="stylesheet" href="../assets/css/argon.css?v=1.2.0" type="text/css">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link rel="stylesheet" href="../assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
     <!--script do Jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--script das mascaras -->
@@ -145,23 +145,10 @@ $inscricaoModel = new Inscricao();
                             <div class="row pt-3">
                                 <button class="btn btn-success btn-block" type="submit">ENVIAR</button>
                             </div>
+                        </form>
                     </div>
 
-
                 </div>
-
-                </form>
-                <hr>
-
-
-
-
-
-
-
-
-
-                </form>
 
             </div>
         </div>
@@ -180,15 +167,17 @@ $inscricaoModel = new Inscricao();
     <script src="../assets/js/argon.js?v=1.2.0"></script>
 
 
+    <!--script da mascaras de cep e cpf -->
     <script>
-      $(document).ready(function() {
-        $('.cep').mask('00000-000');
-        $('.cpf').mask('000.000.000-00', {
-          reverse: true
+        $(document).ready(function() {
+            $('.cep').mask('00000-000');
+            $('.cpf').mask('000.000.000-00', {
+                reverse: true
+            });
         });
-      });
     </script>
 
+    <!--script do autocomplete do cep para os demais outros campos -->
     <script>
         $(document).ready(function() {
 

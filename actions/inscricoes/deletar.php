@@ -12,7 +12,8 @@ require_once('../../models/Bairro.php');
 require_once('../../models/Endereco.php');
 require_once('../../helpers/middleware.php');
 
-verificaAdminLogado();
+//verificacao se o admin está logado 
+verificaAdminLogado(); 
 
 //instancias
 $inscricaoModel = new Inscricao();

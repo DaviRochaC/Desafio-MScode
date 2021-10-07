@@ -2,6 +2,7 @@
 ini_set('display_erros', true);
 error_reporting(E_ALL);
 session_start();
+date_default_timezone_set('America/Sao_Paulo');
 
 //importações de models para manipulação das classes
 require_once('../../models/Inscricao.php');
@@ -23,18 +24,20 @@ $enderecoModel = new Endereco();
 
 
 
-//verifica se os campos foram setados e sao diferentes de vazio
+
+//verifica se os campos foram setados e sao diferentes de vazio se nao estiver faz o redirecionamento com alert
 $campoSetados = $inscricaoModel->verificaCampos($_POST, array(
     'nome', 'cpf', 'email', 'data_nascimento', 'cep', 'rua',
     'numero', 'bairro', 'cidade', 'estado',
 ));
+
+//verifica se a foto foi setada e se nao estiver faz o redirecionamento
+$fotosetada = $inscricaoModel->verificafoto($_FILES['imagem']['name'], $_FILES['imagem']['size'],);
+
 if (!$campoSetados) {
     $_SESSION['danger'] = 'Preencha todos os campos para prosseguir';
     redirecionar();
 }
-
-//verifica se a foto foi setada e se nao estiver faz o redirecionamento
-$fotosetada = $inscricaoModel->verificafoto($_FILES['imagem']['name'], $_FILES['imagem']['size'],);
 
 if (!$fotosetada) {
 
@@ -42,13 +45,37 @@ if (!$fotosetada) {
     redirecionar();
 }
 
-//tira os pontos e traço do cpf e do cep
-$cpf = $inscricaoModel->limpacpf(htmlspecialchars($_POST['cpf']));
+//verifica se o tamanho da string da data de nascimento pra na hora de cadastrar no banco nao ocorrer erro 
+if (strlen($_POST['data_nascimento']) != 10) {
+    $_SESSION['danger'] = 'data de nascimento inválida';
+    redirecionar();
+}
+
+
+//verifica se o tamanho da string do cep pra na hora de cadastrar no banco nao ocorrer erro de
+if (strlen($_POST['cep']) > 9) {
+    $_SESSION['danger'] = 'cep inválido';
+    redirecionar();
+}
+
+
+
+//tira os pontos e traço do cpf e faz o calculo do cpf, se ela retornar false faz o redirecionamento
+$cpf = $inscricaoModel->validaCpf(htmlspecialchars($_POST['cpf']));
+
+if (!$cpf) {
+    $_SESSION['danger'] = 'CPF inválido';
+    redirecionar();
+}
+
+//tira os pontos e traço  do cep
 $cep = $enderecoModel->limpacep(htmlspecialchars($_POST['cep']));
 
 //verifica se o cpf ou  email informado ja existe no banco. Se existir faz o redirecionamento
 $cpfcadastrado = $inscricaoModel->buscarInscricaoPorCpf($cpf);
 $emailcadastrado = $inscricaoModel->buscarInscricaoPorEmail(htmlspecialchars($_POST['email']),);
+
+
 
 if ($cpfcadastrado) {
     $_SESSION['danger'] = 'Já existe uma inscrição vinculada ao CPF informado';
@@ -60,14 +87,14 @@ if ($emailcadastrado) {
     redirecionar();
 }
 
-// cria o array do estado,cadastra ele e o armazena em uma variavel
+// cria o array do estado,cadastra ele  no banco  e o armazena em uma variavel
 $arrayEstado = [
     'sigla' => htmlspecialchars($_POST['estado'])
 ];
 
 $estado = $estadoModel->getEstado($arrayEstado['sigla']);
 
-// cria o array da cidade,cadastra ela e a armazena em uma variavel
+// cria o array da cidade,cadastra ela  no banco  e a armazena em uma variavel
 $arrayCidade = [
     'nome' => htmlspecialchars($_POST['cidade']),
     'estados_id' => $estado['id']
@@ -75,7 +102,7 @@ $arrayCidade = [
 
 $cidade = $cidadeModel->getCidade($arrayCidade['nome'], $arrayCidade['estados_id']);
 
-// cria o array do bairro,cadastra ele e o  armazena em uma variavel
+// cria o array do bairro,cadastra ele no banco e o  armazena em uma variavel
 $arrayBairro = [
     'nome' => htmlspecialchars($_POST['bairro']),
     'cidades_id' => $cidade['id']
@@ -92,7 +119,7 @@ if (!isset($_POST['complemento']) or $_POST['complemento'] == '') {
     $complemento = null;
 }
 
-// cria o array do endereco,cadastra ele e o armazena em uma variavel
+// cria o array do endereco,cadastra ele  no banco  e o armazena em uma variavel
 $arrayEndereço = [
     'rua' => htmlspecialchars($_POST['rua']),
     'numero' => htmlspecialchars($_POST['numero']),
@@ -108,7 +135,7 @@ $endereco = $enderecoModel->getEndereco($arrayEndereço['rua'], $arrayEndereço[
 $imagem = $imagemModel->cadastrar($_FILES);
 $urlimagem = 'http://localhost/mscode/desafio/views/img/' . $imagem;
 
-//criando o array da inscricao, cadastrando ela no banco e fazendo um redirecionamento com uma sessao success ligada
+//criando o array da inscricao, cadastra ela no banco e fazendo um redirecionamento com uma sessao success ligada
 $arrayInscricao = [
     'nome' => htmlspecialchars($_POST['nome']),
     'email' => htmlspecialchars($_POST['email']),
@@ -121,9 +148,18 @@ $arrayInscricao = [
 
 $inscricaoModel->create($arrayInscricao);
 
-$_SESSION['success'] = ' Inscrição feita com sucesso!';
-redirecionar();
 
+
+
+if ($_SESSION['admin_autenticado']) {
+    $_SESSION['success'] = ' Inscrição feita com sucesso!';
+    header('Location:http://localhost/mscode/desafio/views/admin/inscricoes/novaInscricao.php');
+    die();
+}
+
+$_SESSION['inscricaoFeita'] = true;
+header('Location:http://localhost/mscode/desafio/views/inscricoes/inscricaoSucesso.php');
+die();
 
 
 //funcoes
