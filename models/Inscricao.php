@@ -14,28 +14,28 @@ class Inscricao
         $this->db = new MySql('inscricoes');
     }
 
-    public function create($arrayInscrição)
+    public function create($arrayInscrição) 
     {
-        $arrayInscrição['criado_em'] = date('Y-m-d H:i:s');
+        $arrayInscrição['criado_em'] = date('Y-m-d H:i:s'); 
         $arrayInscrição['editado_em'] = date('Y-m-d H:i:s');
 
         return $this->db->inserir($arrayInscrição);
     }
 
-    public function uptade($inscricaoId, $arrayInscrição)
+    public function uptade($inscricaoId, $arrayInscrição) 
     {
-        $where = "id = $inscricaoId";
-        $arrayInscrição['editado_em'] = date('Y-m-d H:i:s');
+        $where = "id = $inscricaoId";        
+        $arrayInscrição['editado_em'] = date('Y-m-d H:i:s');  
 
-        return $this->db->atualizar($arrayInscrição, $where);
+        return $this->db->atualizar($arrayInscrição, $where); 
     }
 
-    public function buscarTodasInscricoes()
+    public function buscarTodasInscricoes() 
     {
         return $this->db->buscar();
     }
 
-    public function buscarInscricaoPorId($id)
+    public function buscarInscricaoPorId($id)  
     {
         $where = "id = '$id'";
         $inscricaoexistente =  $this->db->buscar($where);
@@ -140,6 +140,7 @@ class Inscricao
         if (strlen($cpf) != 11) {
             return false;
         }
+        
         if (preg_match('/([0-9])\1{10}/', $cpf)) {
             return false;
         }
