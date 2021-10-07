@@ -77,8 +77,5 @@ class Cidade
         return $this->db->deletar($where);
     }
 
-    public function atualizarCidade($arrayCidade, $estados_id,)
-    {
-       
-    }
+    
 }

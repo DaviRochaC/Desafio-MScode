@@ -2,6 +2,8 @@
 
 require_once('MySql.php');
 
+
+
 class Inscricao
 {
 
@@ -49,11 +51,11 @@ class Inscricao
     {
         foreach ($chaves as $chave) {
 
-            if (!isset($post[$chave]) or ($post[$chave] == '')) {
-                $_SESSION['danger'] = 'Preencha todos os campos para prosseguir';
-                redirecionar();
+            if (!isset($post[$chave]) or $post[$chave] == '') {
+                return false;
             }
         }
+        return true;
     }
 
     public function verificafoto($postfoto, $tamanhofoto)
@@ -65,7 +67,7 @@ class Inscricao
         if (intval($tamanhofoto) <= 0) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -92,7 +94,7 @@ class Inscricao
             return false;
         }
     }
-    
+
     public function buscarInscricaoPorEnderecosId($enderecos_id)
     {
         $where = "enderecos_id = $enderecos_id";
@@ -107,7 +109,7 @@ class Inscricao
 
     public function limpacpf($cpf)
     {
-     return preg_replace("/[^0-9]/", '', $cpf);
+        return preg_replace("/[^0-9]/", '', $cpf);
     }
 
 
@@ -119,14 +121,11 @@ class Inscricao
 
     public function formataCpf($cpf)
     {
-      $parteUm = substr($cpf,0,3);
-      $parteDois = substr($cpf,3,3);
-      $parteTres = substr($cpf,6,3);
-      $parteQuatro= substr($cpf,9,3);
-      $cpf = "$parteUm.$parteDois.$parteTres-$parteQuatro";
-      return  $cpf;
+        $parteUm = substr($cpf, 0, 3);
+        $parteDois = substr($cpf, 3, 3);
+        $parteTres = substr($cpf, 6, 3);
+        $parteQuatro = substr($cpf, 9, 3);
+        $cpf = "$parteUm.$parteDois.$parteTres-$parteQuatro";
+        return  $cpf;
     }
-
-
-
 }

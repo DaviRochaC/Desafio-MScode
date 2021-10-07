@@ -22,6 +22,7 @@ $cidadeModel = new Cidade();
 $bairroModel = new Bairro();
 $enderecoModel = new Endereco();
 
+//verificacao para receber alguem valido no GET['id']
 if (intval($_GET['id'] <= 0)) {
   $_SESSION['danger'] = 'Inscrição inválida';
   header('Location:http://localhost/mscode/desafio/views/admin/inscricoes/listar.php');
@@ -49,7 +50,7 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Perfil</title>
+  <title>Perfil - Administrativo</title>
 
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
@@ -60,17 +61,20 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
   <link rel="stylesheet" href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
   <!-- Argon CSS -->
   <link rel="stylesheet" href="../assets/css/argon.css?v=1.2.0" type="text/css">
+   <!--script do Jquery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script type="text/javascript" src="../../inscricoes/assets/js/jquery.mask.js"></script>
+  <!--script das mascaras -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ 
 
 </head>
 
 <body>
-  <!-- Sidenav -->
+  <!--  Menu include -->
   <?php include('../components/menu.php') ?>
   <!-- Main content -->
   <div class="main-content" id="panel">
-    <!-- Topnav -->
+    <!-- Topnav include -->
     <?php include('../components/topnav.php') ?>
     <!-- Header -->
     <!-- Header -->
@@ -278,34 +282,35 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
                 <h2 class="pt-2 text-danger">Endereço</h2>
 
                 <div class="row">
+                <div class=" form-group col-md-4 col-sm-12">
+                    <label class="form-label text-dark">CEP</label>
+                    <input name="cep" id="cep" class="form-control text-dark cep" maxlength="9" type="text" value="<?= $endereco['cep'] ?>">
+                  </div>
                   <div class=" form-group col-md-6 col-sm-12">
                     <label class="form-label text-dark">Rua</label>
-                    <input name="rua" class="form-control text-dark" type="text" value="<?= $endereco['rua'] ?>">
+                    <input name="rua"  id="rua" class="form-control text-dark" type="text" value="<?= $endereco['rua'] ?>">
                   </div>
                   <div class=" form-group col-md-2 col-sm-12">
                     <label class="form-label text-dark">Número</label>
                     <input name="numero" class="form-control text-dark" type="text" value="<?= $endereco['numero'] ?>">
                   </div>
-                  <div class=" form-group col-md-4 col-sm-12">
-                    <label class="form-label text-dark">CEP</label>
-                    <input name="cep" class="form-control text-dark cep" maxlength="9" type="text" value="<?= $endereco['cep'] ?>">
-                  </div>
+                
 
                 </div>
 
                 <div class="row">
                   <div class=" form-group col-md-3 col-sm-12">
                     <label class="form-label text-dark">Bairro</label>
-                    <input name="bairro" class="form-control text-dark" type="text" value="<?= $bairro['nome'] ?>">
+                    <input name="bairro" id="bairro" class="form-control text-dark" type="text" value="<?= $bairro['nome'] ?>">
                   </div>
 
                   <div class=" form-group col-md-4 col-sm-12">
                     <label class="form-label text-dark">Cidade</label>
-                    <input name="cidade" class="form-control text-dark" type="text" value="<?= $cidade['nome'] ?>">
+                    <input name="cidade" id="cidade" class="form-control text-dark" type="text" value="<?= $cidade['nome'] ?>">
                   </div>
                   <div class=" form-group col-md-2 col-sm-12">
                     <label class="form-label text-dark">Estado</label>
-                    <input name="estado" class="form-control text-dark" type="text" maxlength="2" value="<?= $estado['sigla'] ?>">
+                    <input name="estado"  id="uf" class="form-control text-dark" type="text" maxlength="2" value="<?= $estado['sigla'] ?>">
                   </div>
                   <div class=" form-group col-md-3 col-sm-12">
                     <label class="form-label text-dark">Complemento</label>
@@ -338,6 +343,7 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
     <!-- Argon JS -->
     <script src="../assets/js/argon.js?v=1.2.0"></script>
 
+     <!-- script da mascara pra cpf e cep -->
     <script>
       $(document).ready(function() {
         $('.cep').mask('00000-000');
@@ -345,6 +351,72 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
           reverse: true
         });
       });
+    </script>
+
+<script>
+        $(document).ready(function() {
+
+            function limpa_formulário_cep() {
+                // Limpa valores do formulário de cep.
+                $("#rua").val("");
+                $("#bairro").val("");
+                $("#cidade").val("");
+                $("#uf").val("");
+                $("#ibge").val("");
+            }
+
+            //Quando o campo cep perde o foco.
+            $("#cep").blur(function() {
+
+                //Nova variável "cep" somente com dígitos.
+                var cep = $(this).val().replace(/\D/g, '');
+
+                //Verifica se campo cep possui valor informado.
+                if (cep != "") {
+
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Valida o formato do CEP.
+                    if (validacep.test(cep)) {
+
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        $("#rua").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+                        $("#ibge").val("...");
+
+                        //Consulta o webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+
+                            if (!("erro" in dados)) {
+                                //Atualiza os campos com os valores da consulta.
+                                $("#rua").val(dados.logradouro);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#uf").val(dados.uf);
+                                $("#ibge").val(dados.ibge);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                limpa_formulário_cep();
+                                alert("CEP não encontrado.");
+                            }
+                        });
+                    } //end if.
+                    else {
+                        //cep é inválido.
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                    }
+                } //end if.
+                else {
+                    //cep sem valor, limpa formulário.
+                    limpa_formulário_cep();
+                }
+            });
+        });
     </script>
 </body>
 

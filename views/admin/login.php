@@ -9,9 +9,8 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
-    <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
-    <!-- Favicon -->
-    <link rel="icon" href="./assets/img/brand/favicon.png" type="image/png">
+    <title>Login - Administrativo</title>
+   
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <!-- Icons -->
@@ -45,10 +44,12 @@ session_start();
                 <div class="col-lg-5 col-md-7">
                     <div class="card">
                         <div class="card-header bg-transparent text-center">
+                              <!-- include para possiveis alerts-->
                        <h3><?php include('./components/alerts.php')?></h3> 
                             <h1>Bem Vindo!</h1>
                         </div>
                         <div class="card-body">
+                            <!-- formulario para Login-->
                             <form role="form" method="POST" action="../../actions/admin/login.php">
                                 <div class="form-group">
                                     <div class="input-group">

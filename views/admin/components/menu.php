@@ -4,7 +4,7 @@
         <!-- Brand -->
         <div class="sidenav-header  align-items-center">
             <a class="navbar-brand" href="javascript:void(0)">
-                <img src="../assets/img/logo.png"  alt="...">
+                <img src="../assets/img/logo.png" alt="...">
             </a>
         </div>
         <div class="navbar-inner">
@@ -12,12 +12,6 @@
             <div class="collapse navbar-collapse" id="sidenav-collapse-main">
                 <!-- Nav items -->
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost/mscode/desafio/views/admin/inscricoes/dashboard.php">
-                            <i class="ni ni-tv-2 text-white"></i>
-                            <span class="nav-link-text text-white">Dashboard</span>
-                        </a>
-                    </li>
                     <!-- Divider -->
                     <hr class="my-3">
                     <li class="nav-item">

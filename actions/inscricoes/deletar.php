@@ -51,7 +51,7 @@ $estado = $estadoModel->buscarEstadoPorId($cidade['estados_id']);
 
 
 //apagando inscrição e o arquivo da pasta foto
-$deletarInscricao = $inscricaoModel->deletarInscricao($inscricao['id']);
+$inscricaoModel->deletarInscricao($inscricao['id']);
 $nomefoto = str_replace('http://localhost/mscode/desafio/views/img/', '', $inscricao['foto']);
 unlink('../../views/img/' . $nomefoto);
 

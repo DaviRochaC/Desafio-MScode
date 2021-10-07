@@ -49,4 +49,5 @@ $_SESSION['admin_autenticado'] = true;
 $_SESSION['admin_id'] = $admin['id'];
 $_SESSION['admin_nome'] = $admin['nome'];
 
-header('Location: http://localhost/mscode/desafio/views/admin/inscricoes/dashboard.php');
+header('Location:http://localhost/mscode/desafio/views/admin/inscricoes/listar.php');
+die();

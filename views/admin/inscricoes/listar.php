@@ -76,6 +76,7 @@ $inscricoes = $inscricaoModel->buscarTodasInscricoes();
                       <th scope="col" class="sort" data-sort="name">Nome</th>
                       <th scope="col" class="sort" data-sort="budget">Email</th>
                       <th scope="col" class="sort" data-sort="status">CPF</th>
+                      <th scope="col" class="sort" data-sort="status">Cadastrado por</th>
                       <th scope="col" class="sort" data-sort="completion">Ações</th>
                       <th scope="col"></th>
                     </tr>
@@ -83,11 +84,18 @@ $inscricoes = $inscricaoModel->buscarTodasInscricoes();
                   <tbody class="list">
                     <?php foreach ($inscricoes as $inscricao) { ?>
                       <tr>
-                        <td><img width="100px" src="<?= $inscricao['foto'] ?>"></td>
+                        <td><img width="80 px" src="<?= $inscricao['foto'] ?>"></td>
                         <td><?= $inscricao['nome']; ?></td>
                         <td><?= $inscricao['email']; ?></td>
                         <?php $cpf = $inscricaoModel->formataCpf($inscricao['cpf']) ?>
                         <td><?= $cpf ?></td>
+                        <td><?php if ($inscricao['landingpage']) { ?>
+                            <div class="badge badge-info">Landingpage</div>
+
+                          <?php } else { ?>
+                            <div class='badge badge-danger'>Admin</div>
+                          <?php } ?>
+                        </td>
                         <td><a class="btn btn-primary" href="http://localhost/mscode/desafio/views/admin/inscricoes/perfil.php?id=<?= $inscricao['id'] ?>"> Detalhes</a>
 
                         </td>
@@ -96,32 +104,7 @@ $inscricoes = $inscricaoModel->buscarTodasInscricoes();
                 </table>
               </div>
             </div>
-            <!-- Card footer -->
-            <div class="card-footer py-4">
-              <nav aria-label="...">
-                <ul class="pagination justify-content-end mb-0">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">
-                      <i class="fas fa-angle-left"></i>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      <i class="fas fa-angle-right"></i>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+
           </div>
         </div>
       </div>
