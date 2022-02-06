@@ -15,11 +15,10 @@ session_start();
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <title>MScode: Inscricões</title>
     <!-- Favicon  da Simonetti-->
-    <link rel="icon" type="image/png" href="https://moveissimonetti.vteximg.com.br/arquivos/favicon.ic">o
+    <link rel="icon" type="image/png" href="https://moveissimonetti.vteximg.com.br/arquivos/favicon.ico">
     <!-- Bootstrap css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-
 
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />

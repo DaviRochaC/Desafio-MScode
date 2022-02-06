@@ -1,36 +1,56 @@
 <?php
 
-class MySql{
+ini_set('display_erros', true);
+error_reporting(E_ALL);
+require_once('../vendor/autoload.php');
 
-	private $db;
-	private $ipHost;
-	private $nomeBanco;
-	private $user;
-	private $password;
-	private $tabela;
+use Dotenv\Dotenv;
 
-	public function __construct($tabela) {
+$dotenv = Dotenv::createUnsafeMutable('/opt/lampp/htdocs/mscode/desafio/');
+
+$dotenv->load();
+
+
+
+class MySql
+{
+
+    private $db;
+    private $ipHost;
+    private $nomeBanco;
+    private $user;
+    private $password;
+    private $tabela;
+
+    public function __construct($tabela)
+    {
 
         //Configurando o acesso ao banco de dados
-        $this->ipHost = '127.0.0.1';
-        $this->nomeBanco = 'desafio';
-        $this->user = 'root';
-        $this->password = '';
+        $this->ipHost = getenv(('DB_HOST'));
+        $this->nomeBanco = getenv(('DB_NAME'));
+        $this->user = getenv(('DB_USER'));
+        $this->password = getenv(('DB_PASS'));
         $this->tabela = $tabela;
 
+
+        var_dump($this->ipHost);
+        die('aqui');
         //Conectando ao banco de dados
         $this->db = new PDO('mysql:host=' . $this->ipHost . ';dbname=' . $this->nomeBanco, $this->user, $this->password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
 
-    public function inserir(Array $dados) {
+
+
+    public function inserir(array $dados)
+    {
         $campos = implode(", ", array_keys($dados));
         $valores = "'" . implode("' , '", array_values($dados)) . "'";
-        
+
         $sql = " INSERT INTO `{$this->tabela}` ({$campos}) VALUES ({$valores}) ";
         $resultSet = $this->db->prepare($sql);
-        
+
         $retorno = false;
         try {
             $resultSet->execute();
@@ -42,7 +62,8 @@ class MySql{
         return $retorno;
     }
 
-	public function buscar($where = null, $limit = null, $offset = null, $orderby = null) {
+    public function buscar($where = null, $limit = null, $offset = null, $orderby = null)
+    {
         $where = ($where != null ? "WHERE {$where}" : "");
         $limit = ($limit != null ? "LIMIT {$limit}" : "");
         $offset = ($offset != null ? "OFFSET {$offset}" : "");
@@ -63,14 +84,15 @@ class MySql{
         return $retorno;
     }
 
-    public function atualizar(Array $dados, $where) {
+    public function atualizar(array $dados, $where)
+    {
         foreach ($dados as $indice => $val) {
             $campos[] = "{$indice} = '{$val}'";
         }
         $campos_query = implode(", ", $campos);
         $sql = " UPDATE `{$this->tabela}` SET {$campos_query} WHERE {$where}";
         $resultSet = $this->db->prepare($sql);
-        
+
         //echo $sql;
         //exit;
 
@@ -86,7 +108,8 @@ class MySql{
         return $retorno;
     }
 
-    public function deletar($where) {
+    public function deletar($where)
+    {
         $sql = " DELETE FROM {$this->tabela} WHERE {$where}";
         $resultSet = $this->db->prepare($sql);
 
@@ -102,7 +125,8 @@ class MySql{
         return $retorno;
     }
 
-    public function runQuery($query) {
+    public function runQuery($query)
+    {
 
         $resultSet = $this->db->prepare($query);
 
@@ -117,6 +141,4 @@ class MySql{
         }
         return $retorno;
     }
-    
-} 
-?>
+}
